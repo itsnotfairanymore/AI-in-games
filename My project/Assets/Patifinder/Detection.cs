@@ -20,17 +20,16 @@ public class Detection : MonoBehaviour
     //     // }
     // }
         
- void OnCollisionEnter(Collision collision)
+void OnCollisionEnter(Collision collision)
 {
     if (collision.gameObject.name == "Player")
-    { 
-        Debug.Log("Entered collision with " + collision.gameObject.name);
-       PlayerExample = GameObject.Find("Agent");
+    {
+       // Debug.Log("Entered collision with " + collision.gameObject.name);
+       PlayerExample = GameObject.Find("PlayerExample");
        PointOfView rb = PlayerExample.GetComponent<PointOfView>();
        rb.playerFinded = true;
        Exercise ex = PlayerExample.GetComponent<Exercise>();
        ex.playerFinded = true;
-
     }
 }
 

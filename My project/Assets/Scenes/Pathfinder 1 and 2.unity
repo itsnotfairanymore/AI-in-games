@@ -149,11 +149,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::K_PathFinder.Samples.SimplePatrolPath
   points:
-  - {x: 2.479692, y: -3.5, z: -5.245042}
-  - {x: 1.549478, y: -3.5, z: -0.5559013}
-  - {x: 4.479692, y: -3.5, z: 1.873352}
-  - {x: 3.51838, y: -3.5, z: -1.234988}
-  - {x: 5.817912, y: -3.5, z: -1.850125}
+  - {x: 5.9965296, y: -3.0598102, z: 0.16134119}
+  - {x: -4.779356, y: -3.2090192, z: -1.1015036}
+  - {x: -1.805897, y: -2.6650271, z: 1.585226}
+  - {x: 6.992635, y: -3.5, z: 1.7826946}
+  - {x: 7.1783285, y: -3.5, z: -9.600544}
   mask:
     serializedVersion: 2
     m_Bits: 1
@@ -259,13 +259,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 20, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!114 &330585547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1028,15 +1028,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4569830595839992, guid: 82d28b04f5acd7141aac36b1d9f6206c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.9296678
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4569830595839992, guid: 82d28b04f5acd7141aac36b1d9f6206c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.9000001
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4569830595839992, guid: 82d28b04f5acd7141aac36b1d9f6206c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.85224
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4569830595839992, guid: 82d28b04f5acd7141aac36b1d9f6206c, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1079,6 +1079,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1686073499276889316, guid: e12de830636dc7c4e8447ee64c42bb31, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1686073499276889316, guid: e12de830636dc7c4e8447ee64c42bb31, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1686073499276889316, guid: e12de830636dc7c4e8447ee64c42bb31, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2749249517922254211, guid: e12de830636dc7c4e8447ee64c42bb31, type: 3}
       propertyPath: m_Name
       value: Player

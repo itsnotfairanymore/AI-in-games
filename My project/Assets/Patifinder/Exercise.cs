@@ -3,6 +3,8 @@ using K_PathFinder.Graphs;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+public bool playerFinded = false; 
+public Transform player;
 
 namespace K_PathFinder.Samples {
     [RequireComponent(typeof(PathFinderAgent), typeof(CharacterController))]
