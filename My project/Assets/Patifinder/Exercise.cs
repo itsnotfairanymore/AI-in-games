@@ -3,87 +3,94 @@ using K_PathFinder.Graphs;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public bool playerFinded = false; 
-public Transform player;
 
-namespace K_PathFinder.Samples {
+namespace K_PathFinder.Samples 
+{
     [RequireComponent(typeof(PathFinderAgent), typeof(CharacterController))]
-    public class Exercise : MonoBehaviour {
+    public class Exercise : MonoBehaviour 
+    {
         public LineRenderer line;
         public SimplePatrolPath patrol;
-        [Range(0f, 5f)] public float speed = 3;
+
+        [Range(0f, 5f)] 
+        public float speed = 3;
 
         public bool playerFinded = false; 
         public Transform player; 
 
         private CharacterController controler;
         private PathFinderAgent agent;  
-        private int currentPoint;   //current patrol point 
-  
+        private int currentPoint;
 
-
-        
-
-
-        void Start() {
+        void Start() 
+        {
             if (patrol == null || patrol.Count == 0)
                 Debug.LogError("Not valid patrol path");
 
             controler = GetComponent<CharacterController>();
             agent = GetComponent<PathFinderAgent>();     
 
-            //find nearest point
             float sqrDist = float.MaxValue;
             Vector3 pos = transform.position;
 
-            for (int i = 0; i < patrol.Count; i++) {
+            for (int i = 0; i < patrol.Count; i++) 
+            {
                 float curSqrDist = (patrol[i] - pos).sqrMagnitude;
-                if (curSqrDist < sqrDist) {
+
+                if (curSqrDist < sqrDist) 
+                {
                     sqrDist = curSqrDist;
                     currentPoint = i;
                 }
             }
 
-            agent.SetRecievePathDelegate(RecivePathDelegate, AgentDelegateMode.ThreadSafe); //setting here delegate to update line renderrer
+            agent.SetRecievePathDelegate(RecivePathDelegate, AgentDelegateMode.ThreadSafe);
 
-            //queue navmesh
             PathFinder.QueueGraph(new Bounds(transform.position, Vector3.one * 20), agent.properties);
         }
         
-        void Update() { 
-        {
-        if (playerFinded)
-        {
-        agent.SetGoalMoveHere(player.position);
-        }
-        else if (agent.haveNextNode) {
-                //remove point if it is closer than agent radius. return true if removed. there is other versions of that function
-                if (agent.RemoveNextNodeIfCloserThanRadiusVector2()) {
-                    //before that there was point. if after it removed here no point mean we reach end of current path
-                    //if no points left then path no longer valid and agent get another path
-                    if (agent.haveNextNode == false) {
-                        currentPoint++;//move to next point on patrol   
-                        if (currentPoint >= patrol.Count)
-                            currentPoint = 0;
+        void Update() 
+        { 
+            if (playerFinded && player != null)
+            {
+                agent.SetGoalMoveHere(player.position);
+            }
 
-                        RecalculatePath(); //queue new path
+            if (agent.haveNextNode) 
+            {
+                if (agent.RemoveNextNodeIfCloserThanRadiusVector2()) 
+                {
+                    if (agent.haveNextNode == false) 
+                    {
+                        if (!playerFinded)
+                        {
+                            currentPoint++;
+
+                            if (currentPoint >= patrol.Count)
+                                currentPoint = 0;
+
+                            RecalculatePath();
+                        }
                     }
                 }
 
-                //if next point still exist then we move towards it
-                if (agent.haveNextNode) {
+                if (agent.haveNextNode) 
+                {
                     Vector2 moveDirection = agent.nextNodeDirectionVector2.normalized;                  
                     controler.SimpleMove(new Vector3(moveDirection.x, 0, moveDirection.y) * speed);
-                    //Quaternion target = Quaternion.Euler(0f, moveDirection.z/moveDirection.x * 360.0f, .0f);
-                    //transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * 10f);
-                    }
+                }
             }
             else
-                RecalculatePath(); //get path to current point            
+            {
+                if (!playerFinded)
+                {
+                    RecalculatePath();
+                }
+            }
         } 
-    }
 
-        public void RecalculatePath() {
+        public void RecalculatePath() 
+        {
             agent.SetGoalMoveHere(patrol[currentPoint]);
         }
 
@@ -91,15 +98,15 @@ namespace K_PathFinder.Samples {
         {
             foreach (ContactPoint contact in collision.contacts)
             {
-            Debug.DrawRay(contact.point, contact.normal, Color.white);
-            // Debug.Log("collision");
+                Debug.DrawRay(contact.point, contact.normal, Color.white);
             }
         }
         
-        //Debug and checks handling
-        private void RecivePathDelegate(Path path) {
+        private void RecivePathDelegate(Path path) 
+        {
             if (path.pathType != PathResultType.Valid)
                 Debug.LogWarningFormat("path is not valid. reason: {0}", path.pathType);
+
             ExampleThings.PathToLineRenderer(agent.positionVector3, line, path, 0.2f);
         }
     }
