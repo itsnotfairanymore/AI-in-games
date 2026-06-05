@@ -10,7 +10,7 @@ namespace K_PathFinder.Samples {
         public LineRenderer line;
         
         // public SimplePatrolPath patrol;
-        [Range(0f, 5f)] public float speed = 3;
+        [Range(0f, 5f)] public float speed = 5;
 
         public GameObject follow;
         

@@ -29,10 +29,13 @@ namespace K_PathFinder.Samples {
         private TrailRenderer _trail;
 
         void Start() {
-            Player = GameObject.Find("Player");
+            if (Player == null)
+                Player = GameObject.Find("Player");
+
             _agent = GetComponent<PathFinderAgent>();
             _controler = GetComponent<CharacterController>();
             _trail = GetComponent<TrailRenderer>();
+
             if(_trail != null) {
                 Material mat = new Material(Shader.Find("Standard"));
                 mat.color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f), 1f);
@@ -40,23 +43,25 @@ namespace K_PathFinder.Samples {
             }
         }
 
-        void OnCollisionStay(Collision collision)
-        {
-            Debug.Log(collision);
-            if (collision.gameObject.name == "Player")
-            {
-                crowded = true;
-                
-                MeshRenderer renderer = GetComponent<MeshRenderer>();
-                if (renderer != null)
-                    { Material newMaterial = new Material(Shader.Find("Standard")); // Tworzymy nowy materiał
-                        newMaterial.color = Color.blue; // Ustawiamy kolor na niebieski
-                        renderer.material = newMaterial; // Przypisujemy materiał
-                    }
-                
-            }
-        }
+    void OnControllerColliderHit(ControllerColliderHit hit)
+{
+    if (hit.gameObject.name == "Player" || hit.gameObject.CompareTag("Player"))
+    {
+        crowded = true;
 
+        MeshRenderer renderer = hit.gameObject.GetComponent<MeshRenderer>();
+
+        if (renderer == null)
+            renderer = hit.gameObject.GetComponentInChildren<MeshRenderer>();
+
+        if (renderer != null)
+        {
+            Material newMaterial = new Material(Shader.Find("Standard"));
+            newMaterial.color = Color.red;
+            renderer.material = newMaterial;
+        }
+    }
+}
         void Update()
         {
             if (_agent.properties == null)
@@ -64,10 +69,13 @@ namespace K_PathFinder.Samples {
 
             //queue some graph around agent so it's always exist (dont recomend to do it if there is lots of agents but okay in small scale)
             PathFinder.QueueGraph(new Bounds(transform.position, new Vector3(10, 10, 10)), _agent.properties);
+
             Vector3 position = transform.position;
             Vector3 playerPosition = Player.transform.position;
+
             //expected direction agent will go
             Vector2 prefVelocity = new Vector2();
+
             if (crowded == false)
             {
                 prefVelocity = new Vector2(targetPosition.x - position.x, targetPosition.z - position.z);
@@ -82,6 +90,7 @@ namespace K_PathFinder.Samples {
 
             //get lowest value between agent max velocity and current target velocity so agent wound try to go faster than it can
             float maxPrefVelocityLength = Mathf.Min(_agent.maxAgentVelocity, velocity);
+
             //if length of prefered velocity vector is greater than max velocity then now it's not
             if (prefVelocity.magnitude > maxPrefVelocityLength)
                 prefVelocity = prefVelocity.normalized * maxPrefVelocityLength;

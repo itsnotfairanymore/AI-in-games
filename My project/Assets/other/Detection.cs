@@ -22,17 +22,18 @@ public class Detection : MonoBehaviour
         
 void OnCollisionEnter(Collision collision)
 {
-    if (collision.gameObject.name == "Player" || collision.gameObject.CompareTag("Player"))
+    if (collision.gameObject.name == "Player")
     {
-        GameObject enemy = GameObject.Find("Agent");
+        PlayerExample = GameObject.Find("Agent");
 
-        PointOfView pov = enemy.GetComponent<PointOfView>();
-        pov.playerFinded = true;
+        PointOfView rb = PlayerExample.GetComponent<PointOfView>();
+        rb.playerFinded = true;
 
-       EnemyAI ex = PlayerExample.GetComponent<EnemyAI>();
-       ex.playerFinded = true;
+        EnemyAI ex = PlayerExample.GetComponent<EnemyAI>();
+        ex.playerFinded = true;
     }
 }
+
     
     //
     // // Gets called during the collision
